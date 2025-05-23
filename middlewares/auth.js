@@ -13,15 +13,13 @@ function auth(req, res, next) {
 
   const [, token] = header.split(' ')
 
-  console.log('token:', token ? token.slice(0, 10) + '…' : token)
-
   if (!token) return res.status(401).json({ msg: 'Invalid token format' })
 
   console.log('JWT_SECRET in midd:', process.env.JWT_SECRET)
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    console.log('Decoded ✅ Token :  ', decoded)
+    console.log('Decoded ✅ Token :', decoded)
 
     req.user = decoded.id
 

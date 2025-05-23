@@ -10,7 +10,7 @@ const User = require('./models/usuario')
 
 // marcar al usuario admin
 async function setAdmin() {
-  const user = await User.findOne({ email: 'eTomicAdmin@etomic.com' })
+  const user = await User.findOne({ email: 'etomic_off_admin@etomic.com' })
   if (user) {
     user.role = 'admin'
     await user.save()
@@ -32,5 +32,5 @@ app.use('/api/users', userRoutes)
 const PORT = process.env.PORT_BACKEND || 5000
 
 app.listen(PORT, () => {
-  console.log(`BackEnd Server Listening at ${PORT}`)
+  console.log(`🎧 eTOMIC GDE  en: http://localhost:${PORT}`)
 })

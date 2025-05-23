@@ -12,14 +12,27 @@ const register = async (req, res, next) => {
 
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(password, salt)
-    const user = await User.create({ name, email, password: hash })
-
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: '1y'
+    const user = await User.create({
+      name,
+      email,
+      password: hash
     })
+
+    const token = jwt.sign(
+      { id: user._id, name: user.name, email: user.email, role: user.role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: '1y'
+      }
+    )
     return res.status(201).json({
       token,
-      user: { id: user._id, name: user.name, email: user.email }
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
     })
   } catch (error) {
     next(error)
@@ -37,7 +50,7 @@ const login = async (req, res, next) => {
     if (!isMatch) return res.status(400).json({ msg: 'Invalid Password' })
 
     const token = jwt.sign(
-      { id: user._id, name: user.name, email: user.email },
+      { id: user._id, name: user.name, email: user.email, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: '1y' }
     )
@@ -47,7 +60,8 @@ const login = async (req, res, next) => {
       user: {
         id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
+        role: user.role
       }
     })
   } catch (error) {

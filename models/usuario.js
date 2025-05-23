@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true
     },
+    description: {
+      type: String,
+      required: false,
+      unique: true
+    },
     avatarLink: {
       type: String,
       default: ''

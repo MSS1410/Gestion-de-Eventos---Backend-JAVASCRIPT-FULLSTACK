@@ -22,7 +22,7 @@ router.use(auth)
 router.post('/:id/attend', attendEvent)
 
 // ruteo para admins
-router.post('/create', isAdmin, upload.single('eventImg'), createEvent)
+router.post('/create', isAdmin, upload.any(), createEvent)
 router.put('/:id/update', isAdmin, upload.single('eventImgUrl'), updateEvent)
 router.delete('/:id/delete', isAdmin, deleteEvent)
 

@@ -29,7 +29,8 @@ const createEvent = async (req, res, next) => {
   try {
     const { title, date, location, description } = req.body
 
-    const eventImgUrl = req.file ? req.file.path : undefined
+    const file = req.files && req.files[0]
+    const eventImgUrl = file ? file.path : undefined
 
     const newEvent = await Event.create({
       title,
@@ -61,7 +62,7 @@ const attendEvent = async (req, res, next) => {
     event.attendees.push(userId)
     await event.save()
 
-    // 4 amarcar en la propiedad eventsatt de el usuario ese evento
+    // 4 a marcar en la propiedad eventsatt de el usuario ese evento
     await User.findByIdAndUpdate(
       userId,
       { $push: { eventsAttending: eventId } },
